@@ -1,0 +1,189 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(
+    135deg,
+    #84fab0 0%,
+    #8fd3f4 100%
+  ); /* Cool gradient background */
+  color: #333;
+  overflow-y: auto;
+  font-family: "Inter", sans-serif; /* Modern, clean font */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.game-container {
+  background: #ffffff;
+  border-radius: 20px; /* Rounded corners for the container */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  max-width: 90%; /* Responsive width */
+  width: 450px; /* Max width for desktop */
+}
+
+.game-title {
+  font-family: "Press Start 2P", cursive; /* Retro arcade font */
+  color: #4caf50; /* Green theme */
+  text-shadow: 2px 2px 0 #2e7d32; /* Pixel-art like shadow */
+  font-size: 1.8rem; /* Responsive font size */
+  margin-top: 75px;
+  text-align: center;
+}
+
+a {
+  color: white;
+}
+
+canvas {
+  border: 5px solid #4caf50; /* Green border */
+  background: #1a1a1a; /* Dark background for contrast */
+  border-radius: 10px; /* Rounded canvas corners */
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inner shadow for depth */
+  display: block;
+  width: 100%; /* Make canvas responsive */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 600px; /* Max height for desktop */
+}
+
+/* New CSS for enhanced paddle and shapes */
+.paddle {
+  border-radius: 10px; /* Rounded corners for paddle */
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3); /* Inner shadow */
+  transition: background 0.2s ease-in-out; /* Smooth color transition */
+}
+
+.shape {
+  border-radius: 5px; /* Slightly rounded corners for shapes */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+}
+
+/* Color-specific gradients for paddle and shapes */
+.red {
+  background: linear-gradient(180deg, #ff6b6b 0%, #ee4444 100%);
+}
+
+.blue {
+  background: linear-gradient(180deg, #6bb9ff 0%, #448eee 100%);
+}
+
+.game-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85); /* Darker overlay */
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+  transition: opacity 0.3s ease-in-out; /* Smooth transition */
+}
+
+.game-overlay.hidden {
+  opacity: 0;
+  pointer-events: none; /* Disable interactions when hidden */
+}
+
+.game-overlay h2 {
+  font-family: "Press Start 2P", cursive;
+  color: #ffeb3b; /* Yellow for headings */
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  text-shadow: 1px 1px 0 #fbc02d;
+}
+
+.game-overlay p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.game-button {
+  background: linear-gradient(
+    180deg,
+    #ffc107 0%,
+    #ffa000 100%
+  ); /* Orange gradient button */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-family: "Press Start 2P", cursive;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease; /* Smooth hover effects */
+  margin-top: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.game-button:hover {
+  background: linear-gradient(180deg, #ffa000 0%, #ffc107 100%);
+  transform: translateY(-3px); /* Lift effect on hover */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.game-button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+#finalScore {
+  font-family: "Press Start 2P", cursive;
+  font-size: 1.3rem;
+  color: #ffeb3b;
+  margin-top: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .game-container {
+    padding: 20px;
+  }
+
+  .game-title {
+    font-size: 1.4rem;
+  }
+
+  .game-overlay h2 {
+    font-size: 1.2rem;
+  }
+
+  .game-overlay p {
+    font-size: 0.9rem;
+  }
+
+  .game-button {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+}
+
+#gameOverScreen {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

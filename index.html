@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Catch Challenge</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="game-container">
+      <h1 class="game-title">Color Catch Challenge</h1>
+      <canvas id="gameCanvas"></canvas>
+      <div id="instructions" class="game-overlay">
+        <h2>How to Play:</h2>
+        <p><strong>Left/Right Arrows</strong> to move your paddle.</p>
+        <p><strong>Spacebar</strong> to switch your paddle's color.</p>
+        <p>Catch falling squares that match your paddle's color!</p>
+        <button id="startBtn" class="game-button">Start Game</button>
+        <button id="creditsBtn" class="game-button">Credits</button>
+      </div>
+      <div id="gameOverScreen" class="game-overlay hidden">
+        <h2>Game Over!</h2>
+        <p id="finalScore">Your Score: 0</p>
+        <p id="highScore">High Score: 0</p>
+        <button id="restartBtn" class="game-button">Play Again</button>
+      </div>
+      <div id="creditsScreen" class="game-overlay hidden">
+        <h2>Credits</h2>
+        <p><strong>Audio Assets:</strong></p>
+        <ul>
+          <li>
+            "Flourish Spacey 1" by GameAudio -- https://freesound.org/s/220171/
+            -- License: Creative Commons 0
+          </li>
+          <li>
+            "Bounce" by Jofae -- https://freesound.org/s/383240/ -- License:
+            Creative Commons 0
+          </li>
+          <li>
+            "gameover sfx: by minimalistiga -- https://freesound.org/s/767605/
+            -- License: Creative Commons 0
+          </li>
+        </ul>
+        <button id="backBtn" class="game-button">Back to Menu</button>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
