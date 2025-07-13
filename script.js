@@ -46,7 +46,7 @@ const shapes = [];
 let score = 0;
 let highScore = localStorage.getItem("highScore") || 0; // Load high score
 let speed = 1;
-let spawnRate = 65; // How many frames between shape spawns
+let spawnRate = 75; // How many frames between shape spawns
 let gameRunning = false;
 
 // Sound Effects
@@ -129,7 +129,7 @@ function startGame() {
   shapes.length = 0;
   score = 0;
   speed = 1; // Initial speed
-  spawnRate = 65; // Initial spawn rate
+  spawnRate = 75; // Initial spawn rate
   paddleX = canvas.width / 2 - paddleWidth / 2;
   currentColor = 0;
   gameRunning = true;
