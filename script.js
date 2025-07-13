@@ -129,7 +129,7 @@ function startGame() {
   shapes.length = 0;
   score = 0;
   speed = 1; // Initial speed
-  spawnRate = 85; // Initial spawn rate
+  spawnRate = 100; // Initial spawn rate
   paddleX = canvas.width / 2 - paddleWidth / 2;
   currentColor = 0;
   gameRunning = true;
