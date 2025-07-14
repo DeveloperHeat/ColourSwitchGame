@@ -46,7 +46,7 @@ const shapes = [];
 let score = 0;
 let highScore = localStorage.getItem("highScore") || 0; // Load high score
 let speed = 5;
-let spawnRate = 100; // How many frames between shape spawns
+let spawnRate = 90; // How many frames between shape spawns
 let gameRunning = false;
 
 // Sound Effects
@@ -129,7 +129,7 @@ function startGame() {
   shapes.length = 0;
   score = 0;
   speed = 5; // Initial speed
-  spawnRate = 100; // Initial spawn rate
+  spawnRate = 90; // Initial spawn rate
   paddleX = canvas.width / 2 - paddleWidth / 2;
   currentColor = 0;
   gameRunning = true;
@@ -172,7 +172,7 @@ function checkCollisions() {
         // Increase difficulty gradually
         if (score % 5 === 0) {
           // Every 5 points
-          speed += 0.2; // Increase speed
+          speed += 0.4; // Increase speed
           spawnRate = Math.max(20, spawnRate - 2); // Decrease spawn rate (make shapes spawn faster), with a minimum of 20
         }
       } else {
