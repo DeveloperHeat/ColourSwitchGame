@@ -12,13 +12,18 @@
   </head>
   <body>
     <div class="game-container">
-      <h1 class="game-title">Colour Rush</h1>
+      <h1 class="game-title">Color Catch Challenge</h1>
       <canvas id="gameCanvas"></canvas>
       <div id="instructions" class="game-overlay">
         <h2>How to Play:</h2>
         <p><strong>Left/Right Arrows</strong> to move your paddle.</p>
         <p><strong>Spacebar</strong> to switch your paddle's color.</p>
         <p>Catch falling squares that match your paddle's color!</p>
+        <p>
+          *STRATEGY*: Catching a <strong>Yellow</strong> square will activate
+          INVERSE MODE for 5 seconds. You must then catch the
+          <strong>OPPOSITE</strong> color!
+        </p>
         <button id="startBtn" class="game-button">Start Game</button>
         <button id="creditsBtn" class="game-button">Credits</button>
       </div>
@@ -30,20 +35,11 @@
       </div>
       <div id="creditsScreen" class="game-overlay hidden">
         <h2>Credits</h2>
-        <p><strong>Audio Assets:</strong></p>
+        <p><strong>Audio Assets (Licensed CC0):</strong></p>
         <ul>
-          <li>
-            "Flourish Spacey 1" by GameAudio
-            -- License: Creative Commons 0
-          </li>
-          <li>
-            "Bounce" by Jofae 
-            -- License: Creative Commons 0
-          </li>
-          <li>
-            "gameover sfx: by minimalistiga 
-            -- License: Creative Commons 0
-          </li>
+          <li>"Flourish Spacey 1" by GameAudio (Source ID 220171)</li>
+          <li>"Bounce" by Jofae (Source ID 383240)</li>
+          <li>"gameover sfx" by minimalistiga (Source ID 767605)</li>
         </ul>
         <button id="backBtn" class="game-button">Back to Menu</button>
       </div>
