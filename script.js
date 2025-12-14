@@ -40,13 +40,28 @@ const colors = [
     },
   },
 ];
+
+// NEW: Inverse Logic Shape Color
+const inverseColor = {
+  name: "yellow",
+  shapeGradient: (ctx, x, y, size) => {
+    const gradient = ctx.createLinearGradient(x, y, x, y + size);
+    gradient.addColorStop(0, "#ffeb3b"); // Bright yellow
+    gradient.addColorStop(1, "#fbc02d"); // Darker yellow
+    return gradient;
+  },
+};
+
 let currentColor = 0; // 0: red, 1: blue
+let isInverseMode = false; // NEW: Flag for inverse logic
+let inverseModeTimer = 0; // NEW: Timer for inverse mode
+const inverseModeDuration = 300; // ~5 seconds at 60fps
 
 const shapes = [];
 let score = 0;
 let highScore = localStorage.getItem("highScore") || 0; // Load high score
-let speed = 5;
-let spawnRate = 80; // How many frames between shape spawns
+let speed = 1;
+let spawnRate = 100; // How many frames between shape spawns
 let gameRunning = false;
 
 // Sound Effects
@@ -128,10 +143,12 @@ function startGame() {
   document.getElementById("instructions").style.display = "none";
   shapes.length = 0;
   score = 0;
-  speed = 5; // Initial speed
-  spawnRate = 80; // Initial spawn rate
+  speed = 1; // Initial speed
+  spawnRate = 100; // Initial spawn rate
   paddleX = canvas.width / 2 - paddleWidth / 2;
   currentColor = 0;
+  isInverseMode = false; // NEW: Reset inverse mode
+  inverseModeTimer = 0;
   gameRunning = true;
   spawnTimer = 0;
   requestAnimationFrame(gameLoop);
@@ -140,7 +157,10 @@ function startGame() {
 function spawnShape() {
   const x = Math.random() * (canvas.width - 20);
   const colorIndex = Math.floor(Math.random() * colors.length);
-  shapes.push({ x, y: -20, color: colorIndex });
+  // NEW: 10% chance to spawn a logic square
+  const type = Math.random() < 0.1 ? "logic" : "normal";
+
+  shapes.push({ x, y: -20, color: colorIndex, type: type });
 }
 
 function updateShapes() {
@@ -165,17 +185,40 @@ function checkCollisions() {
       s.x + 20 >= paddleX &&
       s.x <= paddleX + paddleWidth
     ) {
-      if (s.color === currentColor) {
+      // Check for Collision with a Logic Shape
+      if (s.type === "logic") {
+        isInverseMode = true;
+        inverseModeTimer = inverseModeDuration; // Start timer
+        shapes.splice(i, 1);
+        score++; // Reward a point for accepting the challenge
+        catchSound.currentTime = 0;
+        catchSound.play();
+        return; // Process next shape
+      }
+
+      // Standard/Inverse Collision Logic
+      let isMatch;
+      if (isInverseMode) {
+        // INVERSE MODE: Catch the OPPOSITE color to score
+        isMatch = s.color !== currentColor;
+      } else {
+        // NORMAL MODE: Catch the MATCHING color to score
+        isMatch = s.color === currentColor;
+      }
+
+      if (isMatch) {
+        // Successful catch (either match in normal mode or opposite in inverse mode)
         score++;
         catchSound.currentTime = 0; // Rewind to start if sound is already playing
         catchSound.play(); // Play sound on successful catch
         // Increase difficulty gradually
         if (score % 5 === 0) {
           // Every 5 points
-          speed += 0.4; // Increase speed
+          speed += 0.2; // Increase speed
           spawnRate = Math.max(20, spawnRate - 2); // Decrease spawn rate (make shapes spawn faster), with a minimum of 20
         }
       } else {
+        // Failed catch (either mismatch in normal mode or match in inverse mode)
         gameOver();
         return;
       }
@@ -207,7 +250,12 @@ function draw() {
 
   // Draw shapes
   for (let s of shapes) {
-    ctx.fillStyle = colors[s.color].shapeGradient(ctx, s.x, s.y, 20);
+    let drawColor = colors[s.color];
+    if (s.type === "logic") {
+      drawColor = inverseColor; // Use yellow gradient for logic shape
+    }
+
+    ctx.fillStyle = drawColor.shapeGradient(ctx, s.x, s.y, 20);
     ctx.beginPath();
     ctx.roundRect(s.x, s.y, 20, 20, 5); // Rounded corners
     ctx.fill();
@@ -219,9 +267,21 @@ function draw() {
     ctx.shadowColor = "transparent"; // Reset shadow
   }
 
-  // Draw score
-  ctx.fillStyle = "#fff";
+  // Draw score and Inverse Mode status
   ctx.font = "20px 'Press Start 2P', cursive"; // Use the retro font for score
+
+  // NEW: Display Inverse Mode warning
+  if (isInverseMode) {
+    ctx.fillStyle = "#ffeb3b"; // Yellow text for the warning
+    // Display remaining time in seconds
+    ctx.fillText(
+      "INVERSE! (" + Math.ceil(inverseModeTimer / 60) + "s)",
+      10,
+      60
+    );
+  }
+
+  ctx.fillStyle = "#fff"; // Reset color for the score
   ctx.fillText("Score: " + score, 10, 30);
 }
 
@@ -229,6 +289,14 @@ let spawnTimer = 0;
 
 function gameLoop() {
   if (!gameRunning) return;
+
+  // NEW: Handle Inverse Mode timer countdown
+  if (isInverseMode) {
+    inverseModeTimer--;
+    if (inverseModeTimer <= 0) {
+      isInverseMode = false; // Inverse mode ends
+    }
+  }
 
   spawnTimer++;
   if (spawnTimer > spawnRate) {
